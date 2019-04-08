@@ -1,0 +1,136 @@
+easy_sentence = 'Jefferson City is the capital for the state of ____. The Mascot for the University of Missouri is the ____. The player that will make Missouri National Champions this year is named ____ Porter jr. and he will be drafted in the ____ round of the NBA draft.'
+
+easy_answers = ['missouri', 'tigers', 'michael', 'first']
+
+easy_question_one = easy_sentence[:53]
+easy_question_two = easy_sentence[53:107]
+easy_question_three = easy_sentence[107:197]
+easy_question_four = "Porter jr. " + easy_sentence[204:]
+
+easy = [easy_question_one, easy_question_two, easy_question_three, easy_question_four]
+
+################################################################################
+
+medium_sentence = "The bird that can fly in a single location is the ____. This bird loves to drink ____ water from the bird feeders. These birds are not found outside of the ____ hemisphere. With the exception of insects, while in flight, these tiny birds have the highest ____ of all animals.  "
+medium_answers = ['hummingbird', 'sugar', 'western', 'metabolism']
+
+medium_question_one = medium_sentence[:55]
+medium_question_two = medium_sentence[55:115]
+medium_question_three = medium_sentence[114:172]
+medium_question_four = medium_sentence[172:]
+
+medium = [medium_question_one, medium_question_two, medium_question_three, medium_question_four]
+
+################################################################################
+
+hard_sentence = "The primary center stone for a womens engagement ring is a ____. The 4 c's are cut, clarity, carat, and ____. These gemstones have tiny imperfections in the stone that are called ____. The da biers company is terrible and has a ____ on the current market."
+hard_answers = ["diamond", "color", "inclusions", "monopoly"]
+
+hard_question_one = hard_sentence[:63]
+hard_question_two = hard_sentence[63:108]
+hard_question_three = hard_sentence[108:183]
+hard_question_four = hard_sentence[183:]
+
+hard = [hard_question_one, hard_question_two, hard_question_three, hard_question_four]
+
+################################################################################
+
+question = [easy_question_one, easy_question_two, easy_question_three, easy_question_four,
+            medium_question_one, medium_question_two, medium_question_three, medium_question_four,
+            hard_question_one, hard_question_two, hard_question_three, hard_question_four]
+answer = ['missouri', 'tigers', 'michael', 'first', 'hummingbird', 'sugar', 'western', 'metabolism',
+        'diamond', 'color', 'inclusions', 'monopoly']
+
+easy_attempts = [1,2,3,4]
+medium_attempts = [1,2,3,4,5,6,7,8]
+hard_attempts = [1,2,3,4,5,6,7,8,9,10,11,12]
+
+################################################################################
+
+def game_play(index, maximum_attempts):
+    """
+  Args:
+      param1: Index is for the question and answer lists.
+      param2: The maximum number of attempts for the while loop to go through and
+      index the proper questions and answers.
+  Behavior:
+      Asks the user various questions to answer through a reverse mad libs style game.
+  Returns:
+      Whether the user is correct or incorrect.
+  """
+    user_attempts = 1
+    while index < len(maximum_attempts):
+        user_question = raw_input(question[index] + ">>")
+        if user_question == answer[index]:
+            print "You are correct: " + question[index].replace('____', answer[index].title())
+            index += 1
+        else:
+            if user_attempts <= 1:
+                user_tries = int(raw_input("You are incorrect.\nHow many more tries should I give you?>>"))
+                incorrect_answer(user_tries, index)
+                index += 1
+
+################################################################################
+
+def incorrect_answer(user_tries, index):
+    """
+      Args:
+          param1: User_tries which is the number of attempts the user will get to
+          answer the question.
+          param2: Index is the location for the question and answer lists
+      Behavior:
+          Asks the user various questions to answer through a reverse mad libs
+          style game.
+      Returns:
+          Whether the user is correct or incorrect. If correct then the correct
+          answer is displayed. If incorrect then the user is prompted to try again
+    """
+    user_attempts_two = 0
+    while user_attempts_two < user_tries:
+        user_question_two = raw_input(question[index] + ">>")
+        if user_question_two == answer[index]:
+            print "You are correct: " + question[index].replace('____', answer[index].title())
+            index += 1
+            break
+        elif user_question_two != answer[index]:
+            print "You are incorrect."
+            user_attempts_two += 1
+            if user_attempts_two >= user_tries:
+                index += 1
+                break
+
+
+################################################################################
+
+def start_game():
+    """
+  Args:
+      None
+  Behavior:
+      Asks the user which difficulty level they should choose.
+  Returns:
+      The user to the level of their choosing. While outputting the proper index for the game_play function.
+  """
+    input_level = raw_input('Choose a difficulty level: (easy / medium / hard)\n').lower()
+    if input_level == "easy":
+        print easy_sentence + "\n<<What is the answer to the blank below?>>\n"
+        index = 0
+        maximum_attempts = easy_attempts
+        game_play(index, maximum_attempts)
+    elif input_level == "medium":
+        print medium_sentence + "\n<<What is the answer to the blank below?>>\n"
+        index = 4
+        maximum_attempts = medium_attempts
+        game_play(index, maximum_attempts)
+    elif input_level == "hard":
+        print hard_sentence + "\n<<What is the answer to the blank below?>>\n"
+        index = 8
+        maximum_attempts = hard_attempts
+        game_play(index, maximum_attempts)
+    else:
+        return 'Thats not a level, Dude!'
+
+################################################################################
+
+start_game()
+
